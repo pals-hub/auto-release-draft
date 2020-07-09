@@ -18,6 +18,12 @@ jobs:
                 name: Get the sources
                 uses: actions/checkout@v2
             -
+                name: Restore the dependencies
+                run: npm ci
+            -
+                name: Build
+                run: npm run all
+            -
                 name: Create a release draft                
                 id: create-release-draft
                 uses: ./
