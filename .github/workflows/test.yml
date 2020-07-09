@@ -6,7 +6,7 @@ on:
     create:
 jobs:
     test:
-        name: Unit Test
+        name: Test
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
@@ -17,10 +17,3 @@ jobs:
             - 
                 name: Get the sources
                 uses: actions/checkout@v2
-            - 
-                name: Create a release draft
-                id: create-release-draft
-                uses: ./
-            - 
-                name: Print URL of the release draft
-                run: echo ${{ steps.create-release-draft.outputs.release-url }}
