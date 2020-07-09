@@ -17,3 +17,6 @@ jobs:
             - 
                 name: Get the sources
                 uses: actions/checkout@v2
+            -
+                name: Create a release draft
+                uses: ./
