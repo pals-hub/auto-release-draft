@@ -20,7 +20,4 @@ jobs:
             -
                 name: Create a release draft                
                 id: create-release-draft
-                uses: ./
-                with:
-                    ref: ./
-                    path: ./
+                uses: ./.github/workflows
