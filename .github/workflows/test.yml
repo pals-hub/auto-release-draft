@@ -3,6 +3,7 @@ on:
     push:
         branches:
             - master
+    create:
 jobs:
     build:
         name: Unit Test
