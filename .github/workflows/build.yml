@@ -16,12 +16,9 @@ jobs:
             -
                 name: Get the sources
                 uses: actions/checkout@v2
-                with:
-                    key: ARD_PAT
             -
                 name: Restore the dependencies
                 run: npm ci
             -
                 name: Build
                 run: npm run all
-                

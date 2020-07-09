@@ -16,9 +16,7 @@ jobs:
     steps:
       -
         name: Get the sources
-        uses: actions/checkout@v1
-        with:
-            key: ARD_PAT
+        uses: actions/checkout@v2
       -
         name: Create a release draft for a version tag
         id: create-release-draft
