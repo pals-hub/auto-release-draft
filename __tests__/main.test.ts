@@ -1,27 +1,23 @@
-import {wait} from '../src/wait'
-import * as process from 'process'
-import * as cp from 'child_process'
-import * as path from 'path'
+//we want to test if the run function is calling the @actions/core.setOutput() correctly or not
+//this is a unit test for just the run() function, therefore we should create a fake context in which a fake version of the @actions/core.setOutput() is created in the testbench where run() is tested in isolation
+//to do that, we can use the jest comes with it's own built-in mocking library
 
-test('throws invalid number', async () => {
-  const input = parseInt('foo', 10)
-  await expect(wait(input)).rejects.toThrow('milliseconds not a number')
-})
+//start by importing '@actions/core' so that we know what we want to mock
+import * as core from '@actions/core'
+import { run } from '../src/main'
 
-test('wait 500 ms', async () => {
-  const start = new Date()
-  await wait(500)
-  const end = new Date()
-  var delta = Math.abs(end.getTime() - start.getTime())
-  expect(delta).toBeGreaterThan(450)
-})
+//mock the core package
+jest.mock('@actions/core')
 
-// shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = '500'
-  const ip = path.join(__dirname, '..', 'lib', 'main.js')
-  const options: cp.ExecSyncOptions = {
-    env: process.env
-  }
-  console.log(cp.execSync(`node ${ip}`, options).toString())
+describe('When running the action', ()=>{
+  //create a fakeSetOutput function as the mocked version of the core.setOutput() from the mocked @actions/core
+  //do that by casting the required function to the mocked function of t-type as follows
+  const fakeSetOutput = core.setOutput as jest.MockedFunction<typeof core.setOutput>
+
+  test('it should set the release-url output parameter', async()=>{
+    await run()
+    //expect to have fakeSetOutput being aclled with release-url parameter, and any other parameter (because we have hardcoded that to dummy url) 
+    expect(fakeSetOutput).toHaveBeenCalledWith('release-url',expect.anything())
+  })
+
 })
