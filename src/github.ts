@@ -33,11 +33,11 @@ export async function createReleaseDraft(
     //being that we are creating a new resource, the HTTP Status for a successful operation is '201: created'
     //so if response status is != 201, throw an error along with the actual Status code
 
-    if (response.status != 201) {
-        throw new Error(`Failed to create release draft; HTTP request status: ${response.status}`)
+    if (response.status !== 201) {
+        throw new Error('Failed to create release draft; HTTP request status: ${response.status}')
     }
 
-    core.info(`created release draft ${response.data.name}`)    //if draft is created, log this
+    core.info('created release draft ${response.data.name}')    //if draft is created, log this
 
     return response.data.html_url                               //return the URL
 }
