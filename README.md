@@ -2,6 +2,24 @@
   <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
 </p>
 
+# Personal Notes
+
+@actions toolkit provides many javascript packages like @actions/core, @actions/github-script etc. Install @actions/github-script using npm:
+
+The info about a GitHub action is in a JSON object called event-payload,made available the GitHub Actions runtime and represents the event that triggered the workflow. The environment-variable $GITHUB_EVENT_PATH points to the json file that contains every information about the workflow.
+
+When using javascript, we can skip reading and parsing the $GITHUB_EVENT_PATH json file and instead use convinient functions in the github-script package that contains many useful scripts that can be used as APIs for GitHub. 
+
+@actions/github-script is not one of the dependencies of the action. See package.json. You'll see that @actions/core is listed as a dependency, but @actions/github-script is not. So let's add a reference to it using
+npm install --save @actions/github-script
+Edit: [July 2020] github-script is not registered in npm registry. Use the deprecated @actions/github package instead.
+
+You can now see that package.json has two dependencies - @actions/core and @actions/github
+
+
+
+**default notes from the template**
+
 # Create a JavaScript Action using TypeScript
 
 Use this template to bootstrap the creation of a JavaScript action.:rocket:

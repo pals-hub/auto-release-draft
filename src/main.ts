@@ -5,16 +5,25 @@
 //core allows things like reading user inputs and writing to build log. This means that logger-commands can also be written using the core package.
 //unit test for this file is main.test.ts.
 import * as core from '@actions/core'
+import * as event from './event'
+import * as version from './version'
 
 //exporting to import run() in main.test.js
 export async function run(): Promise<void> {
   try {
-  // implementation of the run function goes here 
-  //one of the outputs we defined in the actions.yml metadata for the action is release-url. We set that here.
-  core.setOutput('release-url','https://someurl.com')
-  } catch (error) {
-    //catch any error code neq 0. Write the error message to the build log using the setFailed function of the core pakage imported from the @actions toolkit of GitHub
-    core.setFailed(error.message)
+    // implementation of the run function goes here 
+    //check version of tag. First, retireve the tag using ./event.getCreatedTag()
+    const tag = event.getCreatedTag()
+    //since ./version.isSemVer() returns a boolean, we must handle the null case separately
+    if(tag && version.isSemVer(tag)){
+      //TODO
+    }
+    //one of the outputs we defined in the actions.yml metadata for the action is release-url. We set that here.
+    core.setOutput('release-url','https://someurl.com')
+  }
+  catch (error) {
+   //catch any error code neq 0. Write the error message to the build log using the setFailed function of the core pakage imported from the @actions toolkit of GitHub
+   core.setFailed(error.message)
   }
 }
 
