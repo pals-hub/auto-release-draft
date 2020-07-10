@@ -11,13 +11,13 @@ import * as core from '@actions/core'
 
 export function getCreatedTag(): string | null {
     //if triggered eventName is not 'create', record the event name in the log and return null
-    if (github.context.eventName != 'create'){
-        core.info('The @actions/github.context.eventName was ${github.context.eventName}')
+    if (github.context.eventName !== 'create'){
+        core.info(`The @actions/github.context.eventName was ${github.context.eventName}`)
         return null
     }
 
     //if the triggered eventName is 'create', then check the ref_type to see if it is 'tag'
-    if (github.context.payload.ref_type != 'tag'){
+    if (github.context.payload.ref_type !== 'tag'){
         core.info('The created reference @ctions/github.context.payload.ref_type was a branch, not a tag')
         return null
     }

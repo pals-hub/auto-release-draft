@@ -37,13 +37,13 @@ export async function getCommitMessagesBetween (oldTag: string, newTag: string):
     await exec(
         'git',                         //the CLI program to execute
         ['log',                        //args to git CLI; log tells git CLI to look for commit messages
-         '${oldTag}..${newTag}',       //this notation tells git to look for the commits between first and second tags only
+         `${oldTag}..${newTag}`,       //this notation tells git to look for the commits between first and second tags only
         ], 
         options                        //the ExecOptions object we defined earlier
     )
 
     //log the result of the getPreviousVersionTag() using the core.debug()
-    core.debug('The commit messages between ${firstTag} and ${secondTag} are:\n${commitMessages}')
+    core.debug(`The commit messages between ${oldTag} and ${newTag} are:\n${commitMessages}`)
     
     //return the previousTag if exitCode is 0, else return null
     //triple equal to === compares both sides for type and value
@@ -79,13 +79,13 @@ export async function getPreviousVersionTag(tag: string): Promise<string | null>
          '--match', 'v[0-9]*',  //--match followed by v[0-9]* tells git CLI to look for the pattern v followed bt digits between 0-9
          'abbrev=0',            //instructs git to only pring the tag
          '--first-parent',      //look into the first branch only, in-case of a merge commit
-         '${tag}^'              //start looking from the parent, denoted by ^, of the specified tag
+         `${tag}^`              //start looking from the parent, denoted by ^, of the specified tag
         ], 
         options                 //the ExecOptions object we defined earlier
     )
 
     //log the result of the getPreviousVersionTag() using the core.debug()
-    core.debug('The previous version tag is ${previousTag}')
+    core.debug(`The previous version tag is ${previousTag}`)
     
     //return the previousTag if exitCode is 0, else return null
     //triple equal to === compares both sides for type and value
@@ -122,7 +122,7 @@ export async function getCommitMessagesFrom (tag: string): Promise<string> {
     )
 
     //log the result of the getPreviousVersionTag() using the core.debug()
-    core.debug('The commit messages from ${tag} are:\n${commitMessages}')
+    core.debug(`The commit messages from ${tag} are:\n${commitMessages}`)
     
     //return the previousTag if exitCode is 0, else return null
     //triple equal to === compares both sides for type and value
