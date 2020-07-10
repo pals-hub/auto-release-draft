@@ -34,10 +34,10 @@ export async function createReleaseDraft(
     //so if response status is != 201, throw an error along with the actual Status code
 
     if (response.status !== 201) {
-        throw new Error('Failed to create release draft; HTTP request status: ${response.status}')
+        throw new Error(`Failed to create release draft; HTTP request status: ${response.status}`)
     }
 
-    core.info('created release draft ${response.data.name}')    //if draft is created, log this
+    core.info(`created release draft ${response.data.name}`)    //if draft is created, log this
 
     return response.data.html_url                               //return the URL
 }
