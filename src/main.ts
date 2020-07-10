@@ -16,7 +16,7 @@ export async function run(): Promise<void> {
     
     const token = core.getInput('repo-token')                               //read the mandatory input-token and pass it to createReleaseDraft() in ./src/github
     const tag = event.getCreatedTag()                                       //retireve the tag using ./event.getCreatedTag()
-    var releaseUrl = ''                                                     //variable to store the releaseUrl
+    let releaseUrl = ''                                                     //variable to store the releaseUrl
     
     if (tag && version.isSemVer(tag)) {                                     //since ./version.isSemVer() returns a boolean, we must handle the null case separately
       const changelog = await git.getChangesIntroducedByTag(tag)            //get changes between this tag and previous tag
