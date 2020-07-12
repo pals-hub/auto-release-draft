@@ -91,7 +91,7 @@
         - Array Value 3
       ```
 
-    * Compound KV, also known as a map/dictionary, can look like
+    * A more complex example
       ```yaml
       Map1:
         Field1: Value1
