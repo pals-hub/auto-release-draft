@@ -152,9 +152,9 @@
 
 - Step Debugging can be performed by sprinkling the following debug logging statements in the code:
 
-```ts
-core.debug(`Your debug message and ${yourExpressionOrVariable}`)
-```
+    ```ts
+    core.debug(`Your debug message and ${yourExpressionOrVariable}`)
+    ```
 - To enable Step Debugging, you would need to create and set a Secret named `ACTIONS_STEP_DEBUG` to `true` in the repository
 
 - The second type of debugging tool for GitHub Actions are the Runner Diagnostic Logs. Runner Diagnostic Logs provide additional log files detailing how the Runner is executing an action. You need the runner diagnostic logs only if you think there is an infrastructure problem with GitHub Actions and you want the product team to check the logs. Each file with prefix `Runner_` or `Worker_` contains different logging information that corresponds to that process:
