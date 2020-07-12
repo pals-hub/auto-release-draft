@@ -26,7 +26,7 @@
     * YAML is very strict with indentation rules. Use 2 spaces for indentation. No Tabs.
 
     * Comments begin by #
-      ```YAML
+      ```yaml
       # this is a comment
       Field: Value    # this is another comment
       ```
@@ -34,12 +34,12 @@
 
     * YAML elements are either strict key-value pairs or key and compound-value pairs.
         * simple KV pair looks like
-          ```YAML
+          ```yaml
           Field: Value
           ```
 
         * More examples of scalar key value pairs
-        ```YAML{scalars}
+        ```yaml
         someNumber: 23
         string: "YAML Ain't Markup Language"
         stringNoQuotes: YAML Ain't Markup Language doesn't need quotes but you can use them if you prefer
@@ -50,30 +50,30 @@
         ```
 
     * A value can be a sequence/array as well. This is also known as a collection. Elements of a sequence begin with 2 spaces for indentaion, and a dash followed by atleast one space character and an entry for the array value. Arrays do not have a key for each indvidual value of the array. Syntax is:
-      ```YAML{Sequence/Array/Collection associated with a field}
+      ```yaml
       Field:
         - Array Value 1
         - Array Value 2
         - Array Value 3
       ```
     * YAML is a superset of JSON and accepts JSON sequences as well. The same collection in JSON and acceptable in YAML is
-      ```YAML{JSON Notation for Collection}
+      ```yaml
       JsonField: [Array Value 1, Array Value 2, Array Value 3]
       ```
 
     * A value can be a bunch of KV pairs as well. This constitutes a map/dictionary.
-      ```YAML{A map}
+      ```yaml
       m1:      #map
         f1: v1 #entry one, indented by 2 extra spaces
         f2: v2 #entry two
       ```
 
-      ```YAML{JSON Equivalent, and legal in YAML}
+      ```yaml
       m1: {f1: v1, f2: v2}
       ```
 
     * An array element can be a map
-      ```YAML{Array where one array element is a map}
+      ```yaml
       Field:
         - Array Value 1 #two spaces, dash, space: total 4 characters befor Array Value 1 starts
         -               #array value is a map, described in the next two lines
@@ -83,7 +83,7 @@
       ```
 
     * Shorthand for creating an array where some elements of the array are themselves compound is as follows. This is exactly equivalent to    the previous YAML snippet.
-      ```YAML{Array where one array element is a map}
+      ```yaml
       Field:
         - Array Value 1 #two spaces, dash, space: total 4 characters befor Array Value 1 starts
         - F1: V1        #same indentation as Array Value 1
@@ -92,7 +92,7 @@
       ```
 
     * Compound KV, also known as a map/dictionary, can look like
-      ```YAML{Map in YAML}
+      ```yaml
       Map1:
         Field1: Value1
         Field2: Value2
@@ -113,7 +113,7 @@
     * Optionally, you can indicate start of document using `---` and end of document using `...`
 
     * Multiline Key can be created by placing a question mark followed by a pipe symbol to flag the start of the key. 
-    ```YAML
+    ```yaml
     ? |
       start a multiline
       key with
