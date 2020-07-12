@@ -4,16 +4,15 @@
 //@actions is the GitHub toolkit that contains many packages. Import the core package from the @actions toolkit. 
 //core allows things like reading user inputs and writing to build log. This means that logger-commands can also be written using the core package.
 //unit test for this file is main.test.ts.
-import * as core from '@actions/core'
-import * as event from './event'
-import * as version from './version'
-import * as git from './git'
-import * as github from './github'
+import * as core      from '@actions/core'
+import * as event     from './event'
+import * as version   from './version'
+import * as git       from './git'
+import * as github    from './github'
 
 //exporting to import run() in main.test.js
 export async function run(): Promise<void> {
-  try {
-    
+  try {    
     const token = core.getInput('repo-token')                               //read the mandatory input-token and pass it to createReleaseDraft() in ./src/github
     const tag = event.getCreatedTag()                                       //retireve the tag using ./event.getCreatedTag()
     let releaseUrl = ''                                                     //variable to store the releaseUrl

@@ -6,7 +6,128 @@
 
 - The source code for the Pluralsight lectures is available at https://github.com/ecampidoglio/auto-release-draft
 
-- @actions toolkit provides many javascript packages like @actions/core, @actions/github-script etc. Install @actions/github-script using npm:
+- Workflow is written in YAML. 
+
+- A general tutorial and reference for the subset of YAML used for workflows can be found at [Common Workflow Language](https://www.commonwl.org/user_guide/)
+
+- For a faster introduction, see [Learn YAML In 5 Minutes](https://www.codeproject.com/Articles/1214409/Learn-YAML-in-five-minutes).
+
+    * Summarizing the YAML tutorial by `DataBytzAI`
+
+    * Nomenclature is half the battle. Here's a snapshot depicting some parts of the YAML syntax viz. 
+        * scalars
+        * collections
+        * multi-line collections
+        * lists/dictionaries
+        * multi-line formatting
+
+      ![YAML Example Syntax](https://www.codeproject.com/KB/codegen/1214409/YamlExample1.png)
+
+    * YAML is very strict with indentation rules. Use 2 spaces for indentation. No Tabs.
+
+    * Comments begin by #
+      ```YAML
+      # this is a comment
+      Field: Value    # this is another comment
+      ```
+    * You must have atleast 1 space character or more between colon `:` and Value.
+
+    * YAML elements are either strict key-value pairs or key and compound-value pairs.
+        * simple KV pair looks like
+          ```YAML
+          Field: Value
+          ```
+
+        * More examples of scalar key value pairs
+        ```YAML{scalars}
+        someNumber: 23
+        string: "YAML Ain't Markup Language"
+        stringNoQuotes: YAML Ain't Markup Language doesn't need quotes but you can use them if you prefer
+        field can have spaces: and so can values obviously
+        field set to null: null
+        another way to say null: ~
+        a boolean field set to true: true
+        ```
+
+    * A value can be a sequence/array as well. This is also known as a collection. Elements of a sequence begin with 2 spaces for indentaion, and a dash followed by atleast one space character and an entry for the array value. Arrays do not have a key for each indvidual value of the array. Syntax is:
+      ```YAML{Sequence/Array/Collection associated with a field}
+      Field:
+        - Array Value 1
+        - Array Value 2
+        - Array Value 3
+      ```
+    * YAML is a superset of JSON and accepts JSON sequences as well. The same collection in JSON and acceptable in YAML is
+      ```YAML{JSON Notation for Collection}
+      JsonField: [Array Value 1, Array Value 2, Array Value 3]
+      ```
+
+    * A value can be a bunch of KV pairs as well. This constitutes a map/dictionary.
+      ```YAML{A map}
+      m1:      #map
+        f1: v1 #entry one, indented by 2 extra spaces
+        f2: v2 #entry two
+      ```
+
+      ```YAML{JSON Equivalent, and legal in YAML}
+      m1: {f1: v1, f2: v2}
+      ```
+
+    * An array element can be a map
+      ```YAML{Array where one array element is a map}
+      Field:
+        - Array Value 1 #two spaces, dash, space: total 4 characters befor Array Value 1 starts
+        -               #array value is a map, described in the next two lines
+            F1: V1      #Exactly two more spaces compared to Array Value 1 before F1: V1 starts
+            F2: V2
+        - Array Value 3
+      ```
+
+    * Shorthand for creating an array where some elements of the array are themselves compound is as follows. This is exactly equivalent to    the previous YAML snippet.
+      ```YAML{Array where one array element is a map}
+      Field:
+        - Array Value 1 #two spaces, dash, space: total 4 characters befor Array Value 1 starts
+        - F1: V1        #same indentation as Array Value 1
+          F2: V2
+        - Array Value 3
+      ```
+
+    * Compound KV, also known as a map/dictionary, can look like
+      ```YAML{Map in YAML}
+      Map1:
+        Field1: Value1
+        Field2: Value2
+        Map2:
+          Field3: Value3
+          Field4: Value4
+          Field5:             #This is an array
+            - Arr1            #This array value is a  scalar
+            -                 #This array value is a map. No name for the array entry if the array value is compound.
+                F1: V1
+                F2: V2
+                F3:           #This is array value is another nested array
+                  - A1
+                  - A2
+            - Arr3
+      ```
+
+    * Optionally, you can indicate start of document using `---` and end of document using `...`
+
+    * Multiline Key can be created by placing a question mark followed by a pipe symbol to flag the start of the key. 
+    ```YAML
+    ? |
+      start a multiline
+      key with
+      many lines
+    : and this is the value
+    ```
+
+    * Check your syntax for correctness at http://www.yamllint.com/ 
+
+- Markdown and GitHub Flavoured Markdown are used for creating rich-text documents on GitHub. See the cheatsheet [here](https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf).
+
+- @actions toolkit provides many javascript packages like @actions/core, @actions/github-script etc. 
+
+- Install dependencies as "npm install @actions/core @actions/github @types/semver @actions/exec"
 
 - The info about a GitHub action is in a JSON object called event-payload,made available the GitHub Actions runtime and represents the event that triggered the workflow. The environment-variable $GITHUB_EVENT_PATH points to the json file that contains every information about the workflow.
 
@@ -25,9 +146,28 @@
 
 - The token itself is stored as a secret called secret.GITHUB_TOKEN. A GitHub action can't access the secret directly. Only the workflow can. To call GitHub API from the action, we need to pass the token from the workflow to the action. Two ways for an action to access the secret.GITHUB_TOKEN are by either reading the environment variable or by passing the secret as an input parameter. Passing as input parameter is advantageous because then we can make it a mandatory input.
 
-**default notes from the template**
+- Two types of debugging for GitHub Actions are Step Debugging and Runner Diagnostics
 
-# Create a JavaScript Action using TypeScript
+- Step Debugging is used for debugging job failures caused by failed steps. Step debug logs increase the verbosity of a job's logs during and after a job's execution to assist with troubleshooting. Additional log events with the prefix `::debug::` will now also appear in the job's logs, these log events are provided by the Action's author and the runner process.
+
+- Step Debugging can be performed by sprinkling the following debug logging statements in the code:
+
+```ts
+core.debug(`Your debug message and ${yourExpressionOrVariable}`)
+```
+- To enable Step Debugging, you would need to create and set a Secret named `ACTIONS_STEP_DEBUG` to `true` in the repository
+
+- The second type of debugging tool for GitHub Actions are the Runner Diagnostic Logs. Runner Diagnostic Logs provide additional log files detailing how the Runner is executing an action. You need the runner diagnostic logs only if you think there is an infrastructure problem with GitHub Actions and you want the product team to check the logs. Each file with prefix `Runner_` or `Worker_` contains different logging information that corresponds to that process:
+    * The Runner process coordinates setting up workers to execute jobs.
+    * The Worker process executes the job.
+
+- The Runner Diagnostic Logs are enabled by setting the secret `ACTIONS_RUNNER_DEBUG` to `true`.
+
+- You can find the runner diagnostic logs in the folder `runner-diagnostic-logs` inside the `log archive` you can download for every executed workflow.
+
+# DEFAULT NOTES FROM TEMPLATE
+
+**Create a JavaScript Action using TypeScript**
 
 Use this template to bootstrap the creation of a JavaScript action.:rocket:
 

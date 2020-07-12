@@ -43,6 +43,7 @@ export async function getCommitMessagesBetween (oldTag: string, newTag: string):
     )
 
     //log the result of the getPreviousVersionTag() using the core.debug()
+    //debug log is enabled when you create and set the secret ACTIONS_STEP_DEBUG to true
     core.debug(`The commit messages between ${oldTag} and ${newTag} are:\n${commitMessages}`)
     
     //return the previousTag if exitCode is 0, else return null
